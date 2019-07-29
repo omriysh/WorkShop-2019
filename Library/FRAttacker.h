@@ -11,7 +11,7 @@ using namespace std;
 
 class FRAttacker : Attacker {
 private:
-    void Flush();
+    void Flush(void* toFlush);
 
 public:
     FRAttacker(string path);
