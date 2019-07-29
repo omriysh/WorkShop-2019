@@ -10,6 +10,8 @@
 using namespace std;
 
 class FRAttacker : Attacker {
+private:
+    void Flush();
 
 public:
     FRAttacker(string path);
