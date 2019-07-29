@@ -9,5 +9,5 @@ set(CMAKE_C_COMPILER "gcc")
 add_library(Workshop
          Victim.cpp Victim.h Attacker.cpp Attacker.h Measurements.cpp Measurements.h MemoryAccess.h FRAttacker.h FRAttacker.cpp)
 
-# add_executable(execfile execfile.cpp
-# target_link_libraries(execffile Workshop)
+add_executable(AttackerTest1 ../AttackerTest1/main.cpp)
+target_link_libraries(AttackerTest1 Workshop)
