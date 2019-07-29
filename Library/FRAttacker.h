@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class FRAttacker : Attacker {
+class FRAttacker : public Attacker {
 private:
     void Flush(void* toFlush);
 
