@@ -5,25 +5,25 @@
 #include "Attacker.h"
 
 Attacker::Attacker(std::string path, char *target, int len, int intervalTime, int iterations) :
-victim(path), targetData(target), targetDataLen(len), interval(intervalTime), maxIterations(iterations){
+victim(path), targetData(target), targetDataLen(len), interval(intervalTime), maxIterations(iterations), measurements(){
     victim.LoadFile();
     targetPointer = victim.FindInFile(target, len);
 }
 
 Attacker::Attacker(std::string path, char *target, int len, int intervalTime) :
-        victim(path), targetData(target), targetDataLen(len), interval(intervalTime), maxIterations(100){
+        victim(path), targetData(target), targetDataLen(len), interval(intervalTime), maxIterations(100), measurements(){
     victim.LoadFile();
     targetPointer = victim.FindInFile(target, len);
 }
 
 Attacker::Attacker(std::string path, char *target, int len) :
-        victim(path), targetData(target), targetDataLen(len), interval(1), maxIterations(100){
+        victim(path), targetData(target), targetDataLen(len), interval(1), maxIterations(100), measurements(){
     victim.LoadFile();
     targetPointer = victim.FindInFile(target, len);
 }
 
 Attacker::Attacker(std::string path) :
-        victim(path), targetData(NULL), targetDataLen(0), interval(1), maxIterations(100){
+        victim(path), targetData(NULL), targetDataLen(0), interval(1), maxIterations(100), measurements(){
     victim.LoadFile();
     targetPointer = victim.FindInFile(targetData, targetDataLen);
 }

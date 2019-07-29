@@ -14,8 +14,8 @@ private:
     char *targetPointer;
     char *targetData;
     int targetDataLen;
-    int inCacheTime;
-    int noCacheTime;
+    unsigned int inCacheTime;
+    unsigned int noCacheTime;
     bool attacking;
     Measurements measurements;
     int interval;
@@ -30,8 +30,8 @@ public:
     Attacker(std::string path, char *target, int len, int intervalTime, int iterations);
 
     void SetTarget(char *data, int len) { targetData = data; targetDataLen = len; }
-    void SetInCacheTime(unsigned int time) { inCacheTime = time; }
-    void SetNoCacheTime(unsigned int time) { noCacheTime = time; }
+    void SetInCacheTime(unsigned int time) { inCacheTime = time; measurements.SetInCacheTime(time);}
+    void SetNoCacheTime(unsigned int time) { noCacheTime = time; measurements.SetNoCacheTime(time);}
     void SetInterval(int time) { interval = time; }
     void SetMaxIterations(int iterations) { maxIterations = iterations; }
 
