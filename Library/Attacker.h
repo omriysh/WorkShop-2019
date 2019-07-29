@@ -9,7 +9,7 @@
 #include "Victim.h"
 
 class Attacker {
-private:
+protected:
     Victim victim;
     char *targetPointer;
     char *targetData;
@@ -17,13 +17,11 @@ private:
     int inCacheTime;
     int noCacheTime;
     bool attacking;
+    Measurements measurements;
     int interval;
     int maxIterations;
 
-    int MeasureTime(volatile char *ch);
-
-protected:
-    Measurements measurements;
+    unsigned int MeasureTime(volatile char *ch);
 
 public:
     Attacker(std::string path);

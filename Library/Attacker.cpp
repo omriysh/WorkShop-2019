@@ -28,7 +28,7 @@ Attacker::Attacker(std::string path) :
     targetPointer = victim.FindInFile(targetData, targetDataLen);
 }
 
-__attribute__((always_inline)) int Attacker::MeasureTime(volatile char* ch)
+__attribute__((always_inline)) unsigned int Attacker::MeasureTime(volatile char* ch)
 {
     int rv;
     __asm__ __volatile__ ("mfence\n"
