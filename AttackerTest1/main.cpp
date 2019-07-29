@@ -13,7 +13,7 @@ using namespace std;
 int main(int argc, char** argv)
 {
     // declaring variables
-    string path = "../testing/test2victim";
+    string path = "/mnt/c/Users/User/Documents/Arazim/Workshop/WorkShop-2019/testing/test2victim";
     char target[] = {'\xc7', '\x45', '\xfc', '\x06', '\x00'};
     Measurements measurements;
 
@@ -22,6 +22,8 @@ int main(int argc, char** argv)
 
     FRAttacker attacker = FRAttacker(path, target, 5, 1000, 1);
     attacker.Configure();
+
+    cout << "Attacker configured" << endl;
 
     while (true)
     {
