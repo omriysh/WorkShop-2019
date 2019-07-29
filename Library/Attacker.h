@@ -17,11 +17,13 @@ private:
     int inCacheTime;
     int noCacheTime;
     bool attacking;
-    Measurements measurements;
     int interval;
     int maxIterations;
 
     int MeasureTime(volatile char *ch);
+
+protected:
+    Measurements measurements;
 
 public:
     Attacker(std::string path);

@@ -8,16 +8,16 @@ using namespace std;
 
 
 FRAttacker::FRAttacker(string path) :
-    Attacker(path);
+    Attacker(path) {}
 
 FRAttacker::FRAttacker(string path, char* target, int len) :
-    Attacker(path, target, len);
+    Attacker(path, target, len) {}
 
 FRAttacker::FRAttacker(string path, char* target, int len, int intervalTime) :
-    Attacker(path, target, len, intervalTime);
+    Attacker(path, target, len, intervalTime) {}
 
 FRAttacker::FRAttacker(string path, char* target, int len, int intervalTime, int iteration) :
-    Attacker(path, target, len, intervalTime, iteration);
+    Attacker(path, target, len, intervalTime, iteration) {}
 
 void FRAttacker::Attack() {
     // declaring variables
@@ -25,7 +25,7 @@ void FRAttacker::Attack() {
     // logic
     // create a new measurements class
     measurements = Measurements();
-
+    
 
 
     // wrap up

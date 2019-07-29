@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONs OFF)
 set(CMAKE_CXX_COMPILER "g++")
 set(CMAKE_C_COMPILER "gcc")
 add_library(Workshop
-         Victim.cpp Victim.h Attacker.cpp Attacker.h Measurements.cpp Measurements.h MemoryAccess.h)
+         Victim.cpp Victim.h Attacker.cpp Attacker.h Measurements.cpp Measurements.h MemoryAccess.h FRAttacker.h FRAttacker.cpp)
 
 # add_executable(execfile execfile.cpp
 # target_link_libraries(execffile Workshop)
