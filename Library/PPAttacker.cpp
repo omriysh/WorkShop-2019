@@ -16,6 +16,8 @@
 #include <string>
 #include <array>
 #include <string>
+#include <unistd.h>
+#include <time.h>
 
 #include <iostream>
 
@@ -67,10 +69,31 @@ PPAttacker::PPAttacker(string path, char* target, int len, int intervalTime, int
 
 void PPAttacker::Attack() {
     // declaring variables
-
+    char buffer[L3Size];
+    unsigned int measured;
 
     // logic
+    // create a new measurements class
+    measurements = Measurements();
+    measurements.SetInCacheTime(inCacheTime);
+    measurements.SetNoCacheTime(noCacheTime);
 
+    // bomb L3
+    for (int i = 0; i < L3Size; i += L3LineSize) {
+        buffer[i] = 0;
+    }
+
+    // wait
+    usleep(interval);
+
+    // measure L3
+    for (int i = 0; i < L3Size; i += L3LineSize) {
+        measured = MeasureTime(buffer + i);
+        *((int*)(buffer + i)) = measured; //instead of waistful writing to measurements, first store in the array itself
+    }
+    for (int i = 0; i < L3Size; i += L3LineSize) { // now store everything in measurements
+        measurements.AddMeasurement(time(NULL), *((int*)(buffer + i)));
+    }
 }
 
 void PPAttacker::Configure() {
