@@ -36,15 +36,15 @@ int main(int argc, char** argv)
         int counter = 0;
         for (auto& access : measurements.GetAccessVector())
         {
-            /*if (access.speculatedCache == Cache::L3)
+            if (access.speculatedCache == Cache::L3)
                 cout << "1";
             else
                 cout << "0";
             cout << " ";
             if (counter++ % charsInLine == 0)
-                cout << endl;*/
-            if (access.speculatedCache == Cache::Memory)
-                cout << "YAY!";
+                cout << endl;
+            /*if (access.speculatedCache == Cache::Memory)
+                cout << "YAY!";*/
         }
         cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         usleep(secsBetweenAttacks * 1000000);

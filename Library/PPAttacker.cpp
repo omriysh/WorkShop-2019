@@ -95,4 +95,30 @@ void PPAttacker::Configure() {
     // find out L3 size and line size by using getconf
     L3Size = stoi(GetAfterSpaces(Exec("getconf -a | grep LEVEL3_CACHE_SIZE")));
     L3LineSize = stoi(GetAfterSpaces(Exec("getconf -a | grep LEVEL3_CACHE_LINESIZE")));
+
+    // try and find out in cache and not in cache times (without flushing)
+    int i;
+    char buffer[L3Size]; // to fill L3
+    unsigned int cyclesSum = 0;
+    int numOfIterations = 1000;
+
+    // set up target pointer
+    char tester[L3LineSize*4];
+    targetPointer = tester + L3LineSize*2;
+
+    for (i = 0; i < numOfIterations; i++) {
+        for (int i = 0; i < L3Size; i += L3LineSize) {
+            buffer[i] = 0;
+        }
+        cyclesSum += MeasureTime(targetPointer);
+    }
+    SetNoCacheTime(cyclesSum / numOfIterations);
+    cyclesSum = 0;
+    MeasureTime(targetPointer); /* makes sure target pointer has been recently read */
+    for (i = 0; i < numOfIterations; i++){
+        cyclesSum += MeasureTime(targetPointer);
+    }
+    SetInCacheTime(cyclesSum / numOfIterations);
+    //cout << "in time: " << inCacheTime << endl;
+    //cout << "no time: " << noCacheTime << endl;
 }
