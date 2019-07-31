@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 {
     // declaring variables
     Measurements measurements;
-    const int secsBetweenAttacks = 5;
+    const int secsBetweenAttacks = 2;
     const int charsInLine = 80;
     int inCounter;
     int noCounter;
@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     //logic
     cout << "We are up and running! :)" << endl;
 
-    PPAttacker attacker = PPAttacker(1000);
+    PPAttacker attacker = PPAttacker(10000);
     attacker.Configure();
 
     cout << "Attacker configured" << endl;
@@ -40,18 +40,16 @@ int main(int argc, char** argv)
         for (auto& access : measurements.GetAccessVector())
         {
             if (access.speculatedCache == Cache::L3) {
-                cout << "1";
+                //cout << "1";
                 inCounter++;
             }
             else {
-                cout << "0";
+                //cout << "0";
                 noCounter++;
             }
-            cout << " ";
+            /*cout << " ";
             if (counter++ % charsInLine == 0)
-                cout << endl;
-            /*if (access.speculatedCache == Cache::Memory)
-                cout << "YAY!";*/
+                cout << endl;*/
         }
         cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~ in: " << inCounter << " out: " << noCounter << endl;
         usleep(secsBetweenAttacks * 1000000);

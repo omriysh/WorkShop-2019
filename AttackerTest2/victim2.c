@@ -14,8 +14,9 @@
 #include <sys/mman.h>
 #include <time.h>
 
-#define BUFFER_SIZE 1000000
-#define INTERVAL    1000
+// L3 size:         3145728
+#define BUFFER_SIZE 2000000
+#define INTERVAL    1
 
 int main()
 {
@@ -30,7 +31,7 @@ int main()
     {
         usleep(INTERVAL);
         index = rand() % BUFFER_SIZE;
-        printf("chosen index: %d\n", index);
+        //printf("chosen index: %d\n", index);
         buffer[index]++;
     }
 }

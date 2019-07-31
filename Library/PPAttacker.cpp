@@ -65,6 +65,7 @@ void PPAttacker::Attack() {
     // declaring variables
     char buffer[L3Size];
     unsigned int measured;
+    const int wordSize = 4;
 
     // logic
     // create a new measurements class
@@ -73,7 +74,7 @@ void PPAttacker::Attack() {
     measurements.SetNoCacheTime(noCacheTime);
 
     // bomb L3
-    for (int i = 0; i < L3Size; i += L3LineSize) {
+    for (int i = 0; i < L3Size; i += L3LineSize*wordSize) {
         buffer[i] = 0;
     }
 
@@ -81,11 +82,11 @@ void PPAttacker::Attack() {
     usleep(interval);
 
     // measure L3
-    for (int i = 0; i < L3Size; i += L3LineSize) {
+    for (int i = 0; i < L3Size; i += L3LineSize*wordSize) {
         measured = MeasureTime(buffer + i);
         *((int*)(buffer + i)) = measured; //instead of waistful writing to measurements, first store in the array itself
     }
-    for (int i = 0; i < L3Size; i += L3LineSize) { // now store everything in measurements
+    for (int i = 0; i < L3Size; i += L3LineSize*wordSize) { // now store everything in measurements
         measurements.AddMeasurement(time(NULL), *((int*)(buffer + i)));
     }
     measurements.UpdateSpeculations();
