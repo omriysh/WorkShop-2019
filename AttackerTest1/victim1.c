@@ -1,6 +1,11 @@
 //
 // Created by User on 31/7/2019.
 //
+// This victim starts by generating a random bit. It then runs in a loop, and
+// calls an Even function or an Odd function, based on the parity of the bit.
+// Both functions are padded with many i=0 statements (i is volatile), but only Even
+// contains an i=6 statement. The Attacker has to find out which function was called.
+//
 
 #include <stdio.h>
 #include <stdlib.h>
