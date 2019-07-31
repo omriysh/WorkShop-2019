@@ -10,10 +10,14 @@
 using namespace std;
 
 class PPAttacker : public Attacker {
+private:
+    int L3Size;
+    int L3LineSize;
+
 public:
     PPAttacker(string path);
     PPAttacker(string path, char* target, int len);
-    PPRAttacker(string path, char* target, int len, int intervalTime);
+    PPAttacker(string path, char* target, int len, int intervalTime);
     PPAttacker(string path, char* target, int len, int intervalTime, int iteration);
 
     void Configure();
