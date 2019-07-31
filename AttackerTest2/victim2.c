@@ -14,13 +14,13 @@
 #include <sys/mman.h>
 #include <time.h>
 
-#define BUFFER_SIZE 100000
-#define INTERVAL    1000000
+#define BUFFER_SIZE 1000000
+#define INTERVAL    1000
 
 int main()
 {
     volatile int random;
-    volatile int buffer[100000] = {0};
+    volatile int buffer[BUFFER_SIZE] = {0};
     volatile int index;
 
     srand(time(NULL));

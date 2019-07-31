@@ -16,8 +16,10 @@ int main(int argc, char** argv)
 {
     // declaring variables
     Measurements measurements;
-    const int secsBetweenAttacks = 7;
+    const int secsBetweenAttacks = 5;
     const int charsInLine = 80;
+    int inCounter;
+    int noCounter;
 
     //logic
     cout << "We are up and running! :)" << endl;
@@ -34,19 +36,24 @@ int main(int argc, char** argv)
         attacker.Attack();
         measurements = attacker.GetMeasurements();
         int counter = 0;
+        inCounter = noCounter = 0;
         for (auto& access : measurements.GetAccessVector())
         {
-            if (access.speculatedCache == Cache::L3)
+            if (access.speculatedCache == Cache::L3) {
                 cout << "1";
-            else
+                inCounter++;
+            }
+            else {
                 cout << "0";
+                noCounter++;
+            }
             cout << " ";
             if (counter++ % charsInLine == 0)
                 cout << endl;
             /*if (access.speculatedCache == Cache::Memory)
                 cout << "YAY!";*/
         }
-        cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+        cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~ in: " << inCounter << " out: " << noCounter << endl;
         usleep(secsBetweenAttacks * 1000000);
     }
 
