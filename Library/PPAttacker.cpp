@@ -54,9 +54,9 @@ string GetAfterSpaces(string data) {
 
 // ~~~~~~~ PPAttacker functions ~~~~~~~
 
-PPAttacker::PPAttacker() : Attacker(nullptr) {}
+PPAttacker::PPAttacker() : Attacker("") {}
 
-PPAttacker::PPAttacker(int intervalTime) : Attacker(nullptr) {
+PPAttacker::PPAttacker(int intervalTime) : Attacker("") {
     interval = intervalTime;
 }
 
@@ -88,6 +88,7 @@ void PPAttacker::Attack() {
     for (int i = 0; i < L3Size; i += L3LineSize) { // now store everything in measurements
         measurements.AddMeasurement(time(NULL), *((int*)(buffer + i)));
     }
+    measurements.UpdateSpeculations();
 }
 
 void PPAttacker::Configure() {
