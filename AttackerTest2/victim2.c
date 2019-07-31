@@ -15,12 +15,13 @@
 #include <time.h>
 
 #define BUFFER_SIZE 100000
-#define INTERVAL    100
+#define INTERVAL    1000000
 
 int main()
 {
     volatile int random;
     volatile int buffer[100000] = {0};
+    volatile int index;
 
     srand(time(NULL));
 
@@ -28,6 +29,8 @@ int main()
     while (1)
     {
         usleep(INTERVAL);
-        buffer[rand() % BUFFER_SIZE]++;
+        index = rand() % BUFFER_SIZE;
+        printf("chosen index: %d\n", index);
+        buffer[index]++;
     }
 }
