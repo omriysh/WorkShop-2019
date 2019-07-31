@@ -4,8 +4,10 @@
 
 #include <string.h>
 #include <iostream>
+#include <unistd.h>
+#include <time.h>
 #include "../Library/Measurements.h"
-#include "../Library/FRAttacker.h"
+#include "../Library/PPAttacker.h"
 #include "../Library/MemoryAccess.h"
 
 using namespace std;
@@ -13,29 +15,32 @@ using namespace std;
 int main(int argc, char** argv)
 {
     // declaring variables
-    string path = "/mnt/c/Users/User/Documents/Arazim/Workshop/WorkShop-2019/testing/test2victim";
-    char target[] = {'\xc7', '\x45', '\xfc', '\x06', '\x00'};
     Measurements measurements;
+    int secsBetweenAttacks = 10;
 
     //logic
     cout << "We are up and running! :)" << endl;
 
-    FRAttacker attacker = FRAttacker(path, target, 5, 1000, 1);
+    PPAttacker attacker = PPAttacker(1000);
     attacker.Configure();
 
     cout << "Attacker configured" << endl;
+    cout << "Attacking once every " << secsBetweenAttacks << " seconds" << endl;
 
     while (true)
     {
+        cout << "Attacking!" << endl;
         attacker.Attack();
         measurements = attacker.GetMeasurements();
         for (auto& access : measurements.GetAccessVector())
         {
             if (access.speculatedCache == Cache::L3)
-            {
-                cout << "Recorded access at time " << access.timeOfMeasure << endl;
-            }
+                cout << "1";
+            else
+                cout << "0";
+            cout << " " << endl;
         }
+        usleep(secsBetweenAttacks * 1000000);
     }
 
     //wrap up and return
