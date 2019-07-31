@@ -15,10 +15,8 @@ private:
     int L3LineSize;
 
 public:
-    PPAttacker(string path);
-    PPAttacker(string path, char* target, int len);
-    PPAttacker(string path, char* target, int len, int intervalTime);
-    PPAttacker(string path, char* target, int len, int intervalTime, int iteration);
+    PPAttacker();
+    PPAttacker(int intervalTime);
 
     void Configure();
     void Attack();

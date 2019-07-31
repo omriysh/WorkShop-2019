@@ -54,17 +54,11 @@ string GetAfterSpaces(string data) {
 
 // ~~~~~~~ PPAttacker functions ~~~~~~~
 
-PPAttacker::PPAttacker(string path) :
-        Attacker(move(path)) {}
+PPAttacker::PPAttacker() : Attacker(nullptr) {}
 
-PPAttacker::PPAttacker(string path, char* target, int len) :
-        Attacker(move(path), target, len) {}
-
-PPAttacker::PPAttacker(string path, char* target, int len, int intervalTime) :
-        Attacker(move(path), target, len, intervalTime) {}
-
-PPAttacker::PPAttacker(string path, char* target, int len, int intervalTime, int iteration) :
-        Attacker(move(path), target, len, intervalTime, iteration) {}
+PPAttacker::PPAttacker(int intervalTime) : Attacker(nullptr) {
+    interval = intervalTime;
+}
 
 
 void PPAttacker::Attack() {
