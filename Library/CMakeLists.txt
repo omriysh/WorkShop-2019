@@ -10,5 +10,5 @@ add_library(Workshop
         Victim.cpp Victim.h Attacker.cpp Attacker.h Measurements.cpp Measurements.h MemoryAccess.h FRAttacker.h FRAttacker.cpp
         PPAttacker.h PPAttacker.cpp)
 
-add_executable(AttackerTest1 ../AttackerTest1/main2.cpp)
+add_executable(AttackerTest1 ../AttackerTest2/main2.cpp)
 target_link_libraries(AttackerTest1 Workshop)
