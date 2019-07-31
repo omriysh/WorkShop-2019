@@ -15,12 +15,15 @@
 #include <stdexcept>
 #include <string>
 #include <array>
+#include <string>
+
+#include <iostream>
 
 
 // ~~~~~~~ helper functions ~~~~~~~
 
 // this function executes a console command and returns the output (stdout only)
-string exec(const char* cmd) {
+string Exec(const char* cmd) {
     array<char, 128> buffer{};
     string result;
     unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
@@ -31,6 +34,19 @@ string exec(const char* cmd) {
         result += buffer.data();
     }
     return result;
+}
+
+// searches for the first time a chunk of spaces appears, and returns the substring
+// that starts right after that and goes all the way to the end.
+string GetAfterSpaces(string data) {
+    int i;
+    for (i = 0; i < data.length(); i++)
+        if (isspace(data[i]))
+            break;
+    for (     ; i < data.length(); i++)
+        if (!isspace(data[i]))
+            break;
+    return data.substr(i, data.length());
 }
 
 
@@ -58,9 +74,7 @@ void PPAttacker::Attack() {
 }
 
 void PPAttacker::Configure() {
-    // declaring variables
-
-
-    //logic
-
+    // find out L3 size and line size by using getconf
+    L3Size = stoi(GetAfterSpaces(Exec("getconf -a | grep LEVEL3_CACHE_SIZE")));
+    L3LineSize = stoi(GetAfterSpaces(Exec("getconf -a | grep LEVEL3_CACHE_LINESIZE")));
 }
