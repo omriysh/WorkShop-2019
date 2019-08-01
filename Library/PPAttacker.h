@@ -18,8 +18,6 @@ private:
     char* buffer;
     int index;
 
-    void BombL3();
-
 public:
     PPAttacker();
     PPAttacker(int intervalTime);
