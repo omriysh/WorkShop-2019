@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 
     cout << "Victim configured" << endl;
 
-    PPAttacker attacker = PPAttacker(100, targetPointer);
+    PPAttacker attacker = PPAttacker(1000, targetPointer);
     attacker.Configure();
 
     cout << "Attacker configured" << endl;
@@ -36,12 +36,18 @@ int main(int argc, char** argv)
     {
         attacker.Attack();
         measurements = attacker.GetMeasurements();
+        int counter = 0;
         for (auto& access : measurements.GetAccessVector())
         {
             if (access.speculatedCache == Cache::L3)
             {
-                cout << "Recorded access at time " << access.timeOfMeasure << endl;
+                counter++;
+                //cout << "Recorded access at time " << access.timeOfMeasure << endl;
             }
+        }
+        if (counter > 0)
+        {
+            cout << counter << " Accesses recorded at time " << time(NULL) << endl;
         }
     }
 
