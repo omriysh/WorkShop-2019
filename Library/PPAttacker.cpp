@@ -161,8 +161,8 @@ void PPAttacker::Configure() {
     }
     SetInCacheTime(cyclesSum / numOfIterations);
 
-    cout << "in time: " << inCacheTime << endl;
-    cout << "no time: " << noCacheTime << endl;
+    //cout << "in time: " << inCacheTime << endl;
+    //cout << "no time: " << noCacheTime << endl;
 
     //cout << "---------" << endl << "Configuration:" << endl;
     //cout << "in time: " << inCacheTime << endl;
