@@ -13,10 +13,15 @@ class PPAttacker : public Attacker {
 private:
     int L3Size;
     int L3LineSize;
+    int L3Assoc;
+
+    int index;
 
 public:
-    PPAttacker();
-    PPAttacker(int intervalTime);
+    PPAttacker(string path);
+    PPAttacker(string path, char* target, int len);
+    PPAttacker(string path, char* target, int len, int intervalTime);
+    PPAttacker(string path, char* target, int len, int intervalTime, int iteration);
 
     void Configure();
     void Attack();
