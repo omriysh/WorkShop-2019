@@ -15,19 +15,12 @@ int main(int argc, char** argv)
     // declaring variables
     string path = "/mnt/c/Users/User/Documents/Arazim/Workshop/WorkShop-2019/testing/test2victim";
     char target[] = {'\xc7', '\x45', '\xfc', '\x06', '\x00'};
-    char* targetPointer;
     Measurements measurements;
 
     //logic
     cout << "We are up and running! :)" << endl;
 
-    Victim victor = Victim(path);
-    victor.LoadFile();
-    targetPointer = victor.FindInFile(target, 5);
-
-    cout << "Victim configured" << endl;
-
-    PPAttacker attacker = PPAttacker(1000, targetPointer);
+    PPAttacker attacker = PPAttacker(path, target, 5, 1000, 1);
     attacker.Configure();
 
     cout << "Attacker configured" << endl;

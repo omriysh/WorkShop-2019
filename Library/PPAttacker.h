@@ -15,14 +15,13 @@ private:
     int L3LineSize;
     int L3Assoc;
 
-    char* buffer;
     int index;
 
 public:
-    PPAttacker();
-    PPAttacker(int intervalTime);
-    PPAttacker(int intervalTime, char* target);
-    ~PPAttacker();
+    PPAttacker(string path);
+    PPAttacker(string path, char* target, int len);
+    PPAttacker(string path, char* target, int len, int intervalTime);
+    PPAttacker(string path, char* target, int len, int intervalTime, int iteration);
 
     void Configure();
     void Attack();

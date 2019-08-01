@@ -54,20 +54,17 @@ string GetAfterSpaces(string data) {
 
 // ~~~~~~~ PPAttacker functions ~~~~~~~
 
-PPAttacker::PPAttacker() : Attacker("") {}
+PPAttacker::PPAttacker(string path) :
+        Attacker(path) {}
 
-PPAttacker::PPAttacker(int intervalTime) : Attacker("") {
-    interval = intervalTime;
-}
+PPAttacker::PPAttacker(string path, char* target, int len) :
+        Attacker(path, target, len) {}
 
-PPAttacker::PPAttacker(int intervalTime, char* target) : Attacker("") {
-    interval = intervalTime;
-    targetPointer = target;
-}
+PPAttacker::PPAttacker(string path, char* target, int len, int intervalTime) :
+        Attacker(path, target, len, intervalTime) {}
 
-PPAttacker::~PPAttacker() {
-    free(buffer);
-}
+PPAttacker::PPAttacker(string path, char* target, int len, int intervalTime, int iteration) :
+        Attacker(path, target, len, intervalTime, iteration) {}
 
 
 void PPAttacker::Attack() {
@@ -151,8 +148,8 @@ void PPAttacker::Configure() {
     testingPointer = tester + L3LineSize*2;
     // measure
     for (i = 0; i < numOfIterations; i++) {
-        for (int i = 0; i < L3Size; i += L3LineSize) {
-            buffer[i]++;
+        for (int j = 0; j < L3Size; j += L3LineSize) {
+            buffer[j]++;
         }
         cyclesSum += MeasureTime(testingPointer);
     }
