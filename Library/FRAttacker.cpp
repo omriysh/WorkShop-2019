@@ -37,12 +37,9 @@ void FRAttacker::Attack() {
     measurements.SetInCacheTime(inCacheTime);
     measurements.SetNoCacheTime(noCacheTime);
 
-    // flush for the first time
-    if (maxIterations > 0)
-        Flush(targetPointer);
-
     // main attacking loop: wait, measure, flush
     for (int i = 0; i < maxIterations; i++) {
+        Flush(targetPointer);
         usleep(interval);
         measured = MeasureTime(targetPointer);
         //if (measured < 100) cout << measured << endl;
