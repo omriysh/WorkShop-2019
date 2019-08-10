@@ -7,6 +7,8 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <exception>
+#include <stdexcept>
 #include "Victim.h"
 
 // ctor (assignments only)
@@ -16,31 +18,28 @@ Victim::Victim (string Path) : path(std::move(Path)), fileData(nullptr), fileLen
 Victim::~Victim() {
     //delete path;
     if (fileData) {
-        int err = munmap(fileData, fileLen);
-        if (err < 0) { // error unmapping
-            //TODO: handle error
-        }
+        munmap(fileData, fileLen);
     }
 }
 
 // loads the file to memory using mmap (initializes fileData and fileLen)
 void Victim::LoadFile() {
-    int fd, status;
+    int fd;
     struct stat s{};
 
     fd = open(path.c_str(), O_RDONLY);
     if (fd < 0) { // error opening file
-        // TODO: handle error
+        throw logic_error("Failed to open " + path);
     }
     else {
         // get file length
-        status = fstat (fd, & s);
+        fstat (fd, & s);
         fileLen = s.st_size;
 
         // mmap <3
-        fileData = (char*)mmap(0, fileLen, PROT_READ, MAP_SHARED, fd, 0);
+        fileData = (char*)mmap(nullptr, fileLen, PROT_READ, MAP_SHARED, fd, 0);
         if (fileData == MAP_FAILED) { // error using mmap
-            //TODO: handle error
+            throw runtime_error("mmap failed");
         }
     }
 }
