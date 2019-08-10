@@ -38,6 +38,14 @@ void FRAttacker::Attack() {
     measurements.SetInCacheTime(inCacheTime);
     measurements.SetNoCacheTime(noCacheTime);
 
+    // check dependencies
+    if (inCacheTime == 0 || noCacheTime == 0)
+        throw logic_error("inCacheTime or noCacheTime not set");
+    if (interval == 0)
+        throw logic_error("interval not set");
+    if (targetPointer == nullptr)
+        throw logic_error("target not set");
+
     // flush for the first time
     if (maxIterations > 0)
         Flush(targetPointer);
