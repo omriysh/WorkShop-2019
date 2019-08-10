@@ -23,3 +23,12 @@ TEST(VictimClassTesting, FindInFile)
     result = victor.FindInFile(search2, 5);
     ASSERT_EQ(result, nullptr);
 }
+
+TEST(VictimClassTesting, LoadFile)
+{
+    Victim victor = Victim("/mnt/c/Users/User/Documents/Arazim/Workshop/WorkShop-2019/GoogleTesting/test.txt");
+    ASSERT_NO_THROW(victor.LoadFile());
+
+    victor = Victim("/mnt/c/Users/User/Documents/Arazim/Workshop/WorkShop-2019/GoogleTesting/fakePath.txt");
+    ASSERT_THROW(victor.LoadFile(), logic_error);
+}
