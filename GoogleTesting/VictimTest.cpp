@@ -16,6 +16,9 @@ TEST(VictimClassTesting, FindInFile)
 
     result = victor.FindInFile(search1, 3);
     ASSERT_NE(result, nullptr);
+    ASSERT_EQ(*result, 'w');
+    ASSERT_EQ(*(result+1), 'o');
+    ASSERT_EQ(*result, 'w');
 
     result = victor.FindInFile(search2, 5);
     ASSERT_EQ(result, nullptr);
