@@ -28,6 +28,9 @@ target_link_libraries(MeasurementsClassTesting gtest_main Workshop)
 add_executable(FRAttackerClassTesting ../GoogleTesting/FRAttackerTest.cpp)
 target_link_libraries(FRAttackerClassTesting gtest_main Workshop)
 
+add_executable(PPAttackerClassTesting ../GoogleTesting/PPAttackerTest.cpp)
+target_link_libraries(PPAttackerClassTesting gtest_main Workshop)
+
 #add_test(
 #        NAME
 #        FindInFile
