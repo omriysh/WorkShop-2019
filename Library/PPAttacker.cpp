@@ -54,8 +54,8 @@ string GetAfterSpaces(string data) {
 
 // ~~~~~~~ PPAttacker functions ~~~~~~~
 
-PPAttacker::PPAttacker(string path) :
-        Attacker(path) {}
+PPAttacker::PPAttacker() :
+        Attacker() {}
 
 PPAttacker::PPAttacker(string path, char* target, int len) :
         Attacker(path, target, len) {}

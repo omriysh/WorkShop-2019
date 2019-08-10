@@ -5,14 +5,15 @@
 #include "FRAttacker.h"
 #include <unistd.h>
 #include <time.h>
+#include <stdexcept>
 
 //#include <iostream>
 
 using namespace std;
 
 
-FRAttacker::FRAttacker(string path) :
-    Attacker(path) {}
+FRAttacker::FRAttacker() :
+    Attacker() {}
 
 FRAttacker::FRAttacker(string path, char* target, int len) :
     Attacker(path, target, len) {}
@@ -55,11 +56,18 @@ void FRAttacker::Configure() {
     int i;
     unsigned int cyclesSum = 0;
     int numOfIterations = 1000;
+
+    if (targetPointer == nullptr) {
+        throw logic_error("target not defined");
+    }
+
+    //find noCacheTime
     for (i = 0; i < numOfIterations; i++) {
         Flush(targetPointer);
         cyclesSum += MeasureTime(targetPointer);
     }
     SetNoCacheTime(cyclesSum / numOfIterations);
+    // find inCacheTime
     cyclesSum = 0;
     MeasureTime(targetPointer); /* makes sure target pointer has been recently read */
     for (i = 0; i < numOfIterations; i++){

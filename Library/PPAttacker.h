@@ -18,7 +18,7 @@ private:
     int index;
 
 public:
-    PPAttacker(string path);
+    PPAttacker();
     PPAttacker(string path, char* target, int len);
     PPAttacker(string path, char* target, int len, int intervalTime);
     PPAttacker(string path, char* target, int len, int intervalTime, int iteration);

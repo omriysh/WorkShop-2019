@@ -14,7 +14,7 @@ private:
     void Flush(void* toFlush);
 
 public:
-    FRAttacker(string path);
+    FRAttacker();
     FRAttacker(string path, char* target, int len);
     FRAttacker(string path, char* target, int len, int intervalTime);
     FRAttacker(string path, char* target, int len, int intervalTime, int iteration);
