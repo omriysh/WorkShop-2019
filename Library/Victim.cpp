@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by User on 18/5/2019.
 //
@@ -8,7 +10,7 @@
 #include "Victim.h"
 
 // ctor (assignments only)
-Victim::Victim (string Path) : path(Path), fileData(NULL), fileLen(0){}
+Victim::Victim (string Path) : path(std::move(Path)), fileData(nullptr), fileLen(0){}
 
 // dtor (free the mapping of the file)
 Victim::~Victim() {
@@ -24,7 +26,7 @@ Victim::~Victim() {
 // loads the file to memory using mmap (initializes fileData and fileLen)
 void Victim::LoadFile() {
     int fd, status;
-    struct stat s;
+    struct stat s{};
 
     fd = open(path.c_str(), O_RDONLY);
     if (fd < 0) { // error opening file
@@ -44,7 +46,7 @@ void Victim::LoadFile() {
 }
 
 // return a pointer to the first appearance of data in fileData (NULL if not found)
-char* Victim::FindInFile(char* data, int len) {
+char* Victim::FindInFile(const char* data, int len) {
     bool found;
 
     for (int i = 0; i < fileLen - len; ++i) {
@@ -60,5 +62,5 @@ char* Victim::FindInFile(char* data, int len) {
         }
     }
 
-    return NULL;
+    return nullptr;
 }
