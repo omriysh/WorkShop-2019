@@ -40,11 +40,11 @@ void FRAttacker::Attack() {
 
     // check dependencies
     if (inCacheTime == 0 || noCacheTime == 0)
-        throw logic_error("inCacheTime or noCacheTime not set");
+        throw logic_error("inCacheTime or noCacheTime not set. please set them manually or run Configure()");
     if (interval == 0)
-        throw logic_error("interval not set");
+        throw logic_error("interval not set. please set manually");
     if (targetPointer == nullptr)
-        throw logic_error("target not set");
+        throw logic_error("target not set. please set manually");
 
     // flush for the first time
     if (maxIterations > 0)
