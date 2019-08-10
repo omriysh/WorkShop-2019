@@ -18,3 +18,4 @@ TEST(FRAttackerClassTesting, Configure) {
 
     ASSERT_NO_THROW(attacker.Configure());
 }
+
