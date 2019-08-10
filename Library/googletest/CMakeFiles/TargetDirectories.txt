@@ -1,3 +1,0 @@
-/mnt/c/Users/User/Documents/Arazim/Workshop/WorkShop-2019/Library/googletest/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/User/Documents/Arazim/Workshop/WorkShop-2019/Library/googletest/CMakeFiles/googletest.dir
-/mnt/c/Users/User/Documents/Arazim/Workshop/WorkShop-2019/Library/googletest/CMakeFiles/edit_cache.dir
