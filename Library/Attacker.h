@@ -10,7 +10,7 @@
 
 class Attacker {
 protected:
-    Victim victim;
+    Victim *victim;
     char *targetPointer;
     char *targetData;
     int targetDataLen;
@@ -24,12 +24,14 @@ protected:
     unsigned int MeasureTime(volatile char *ch);
 
 public:
-    Attacker(std::string path);
+    Attacker();
     Attacker(std::string path, char *target, int len);
     Attacker(std::string path, char *target, int len, int intervalTime);
     Attacker(std::string path, char *target, int len, int intervalTime, int iterations);
 
-    void SetTarget(char *data, int len) { targetData = data; targetDataLen = len; }
+    virtual ~Attacker();
+
+    void SetTarget(char *target) { targetPointer = target; }
     void SetInCacheTime(unsigned int time) { inCacheTime = time; measurements.SetInCacheTime(time);}
     void SetNoCacheTime(unsigned int time) { noCacheTime = time; measurements.SetNoCacheTime(time);}
     void SetInterval(int time) { interval = time; }
