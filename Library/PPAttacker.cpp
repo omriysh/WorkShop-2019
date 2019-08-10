@@ -78,6 +78,16 @@ void PPAttacker::Attack() {
     measurements.SetInCacheTime(inCacheTime);
     measurements.SetNoCacheTime(noCacheTime);
 
+    // check dependencies
+    if (inCacheTime == 0 || noCacheTime == 0)
+        throw logic_error("inCacheTime or noCacheTime not set. please set them manually or run Configure()");
+    if (L3Size == 0 || L3LineSize == 0)
+        throw logic_error("please run Congifure()");
+    if (interval == 0)
+        throw logic_error("interval not set. please set manually");
+    if (targetPointer == nullptr)
+        throw logic_error("target not set. please set manually");
+
     // main attacking loop
     for (int i = 0; i < maxIterations; i++) {
         // bomb L3
