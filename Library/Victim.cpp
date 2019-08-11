@@ -1,9 +1,4 @@
 #include <utility>
-
-//
-// Created by User on 18/5/2019.
-//
-
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -11,18 +6,14 @@
 #include <stdexcept>
 #include "Victim.h"
 
-// ctor (assignments only)
 Victim::Victim (string Path) : path(std::move(Path)), fileData(nullptr), fileLen(0){}
 
-// dtor (free the mapping of the file)
 Victim::~Victim() {
-    //delete path;
     if (fileData) {
         munmap(fileData, fileLen);
     }
 }
 
-// loads the file to memory using mmap (initializes fileData and fileLen)
 void Victim::LoadFile() {
     int fd;
     struct stat s{};

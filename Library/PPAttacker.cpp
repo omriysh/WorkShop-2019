@@ -4,10 +4,6 @@
 
 #include <utility>
 
-//
-// Created by User on 18/5/2019.
-//
-
 #include "PPAttacker.h"
 #include <cstdio>
 #include <iostream>
@@ -20,7 +16,6 @@
 #include <time.h>
 
 #include <iostream>
-
 
 // ~~~~~~~ helper functions ~~~~~~~
 
@@ -91,52 +86,17 @@ void PPAttacker::Attack() {
     // main attacking loop
     for (int i = 0; i < maxIterations; i++) {
         // bomb L3
-        for (int i = 0; i < L3Size; i += L3LineSize) {
-            buffer[i]++;
+        for (int j = 0; j < L3Size; j += L3LineSize) {
+            buffer[j]++;
         }
         // wait
         usleep(interval);
         // measure
         measured = MeasureTime(targetPointer);
-        //if (measured < 100) cout << measured << endl;
         measurements.AddMeasurement(time(NULL), measured);
     }
     measurements.UpdateSpeculations();
 }
-
-
-/*
-void PPAttacker::Attack() {
-    // declaring variables
-    char buffer[L3Size];
-    unsigned int measured;
-    const int wordSize = 1;
-
-    // logic
-    // create a new measurements class
-    measurements = Measurements();
-    measurements.SetInCacheTime(inCacheTime);
-    measurements.SetNoCacheTime(noCacheTime);
-
-    // bomb L3
-    for (int i = 0; i < L3Size; i += L3LineSize*wordSize) {
-        buffer[i] = 0;
-    }
-
-    // wait
-    usleep(interval);
-
-    // measure L3
-    for (int i = 0; i < L3Size; i += L3LineSize*wordSize) {
-        measured = MeasureTime(buffer + i);
-        *((int*)(buffer + i)) = measured; //instead of waistful writing to measurements, first store in the array itself
-    }
-    for (int i = 0; i < L3Size; i += L3LineSize*wordSize) { // now store everything in measurements
-        measurements.AddMeasurement(time(NULL), *((int*)(buffer + i)));
-    }
-    measurements.UpdateSpeculations();
-}
-*/
 
 void PPAttacker::Configure() {
     int i;
@@ -147,7 +107,6 @@ void PPAttacker::Configure() {
     // find out L3 size and line size by using getconf
     L3Size = stoi(GetAfterSpaces(Exec("getconf -a | grep LEVEL3_CACHE_SIZE")));
     L3LineSize = stoi(GetAfterSpaces(Exec("getconf -a | grep LEVEL3_CACHE_LINESIZE")));
-    L3Assoc = stoi(GetAfterSpaces(Exec("getconf -a | grep LEVEL3_CACHE_ASSOC")));
 
     // allocate buffer
     char buffer[L3Size];
@@ -165,20 +124,9 @@ void PPAttacker::Configure() {
     }
     SetNoCacheTime(cyclesSum / numOfIterations);
     cyclesSum = 0;
-    MeasureTime(testingPointer); /* makes sure target pointer has been recently read */
+    MeasureTime(testingPointer); // makes sure target pointer has been recently read
     for (i = 0; i < numOfIterations; i++){
         cyclesSum += MeasureTime(testingPointer);
     }
     SetInCacheTime(cyclesSum / numOfIterations);
-
-    //cout << "in time: " << inCacheTime << endl;
-    //cout << "no time: " << noCacheTime << endl;
-
-    //cout << "---------" << endl << "Configuration:" << endl;
-    //cout << "in time: " << inCacheTime << endl;
-    //cout << "no time: " << noCacheTime << endl;
-    //cout << "L3 size: " << L3Size      << endl;
-    //cout << "L3 line: " << L3LineSize  << endl;
-    //cout << "L3 asso: " << L3Assoc     << endl;
-    //cout << "---------" << endl;
 }

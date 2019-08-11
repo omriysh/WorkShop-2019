@@ -34,7 +34,7 @@ public:
     // flushed. Note: this means target must be defined before calling Configure!
     void Configure();
     // Here, attack performs the flush-reload attack described above (in the beginning
-    // of this file. It runs for maxIterations, each iteration works as follows:
+    // of this file). It runs for maxIterations, each iteration works as follows:
     //      - flush target from cache
     //      - wait interval ns
     //      - measure access time to target and record measurement
