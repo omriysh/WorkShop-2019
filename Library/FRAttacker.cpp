@@ -45,6 +45,7 @@ void FRAttacker::Attack() {
 
     // main attacking loop: wait, measure, flush
     for (int i = 0; i < maxIterations; i++) {
+        Flush(targetPointer);
         usleep(interval);
         measured = MeasureTime(targetPointer);
         //if (measured < 100) cout << measured << endl;
