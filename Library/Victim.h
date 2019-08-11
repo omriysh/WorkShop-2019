@@ -22,7 +22,7 @@ public:
     Victim(string Path);
     ~Victim();
     void LoadFile();
-    char* FindInFile(char* data, int len);
+    char* FindInFile(const char* data, int len);
 
 };
 
