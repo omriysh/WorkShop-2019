@@ -1,9 +1,13 @@
 //
-// Created by nires on 26-May-19.
+// This is a wrapper class that holds a vector of memory accesses
+// (instances of the MemoryAccess struct). It just makes it a bit
+// more comfortable to work with, and handles updating the speculations
+// itself (when given inCacheTime and noCacheTime).
 //
 
 #ifndef WORKSHOP_MEASUREMENTS_H
 #define WORKSHOP_MEASUREMENTS_H
+
 #include <ctime>
 #include <vector>
 #include "MemoryAccess.h"
