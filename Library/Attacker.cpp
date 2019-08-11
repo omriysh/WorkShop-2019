@@ -1,10 +1,5 @@
-#include <utility>
-
-//
-// Created by nires on 23-May-19.
-//
-
 #include "Attacker.h"
+#include <utility>
 
 Attacker::Attacker(std::string path, char *target, int len, int intervalTime, int iterations) :
         targetData(target), targetDataLen(len), targetPointer(nullptr), interval(intervalTime), maxIterations(iterations), measurements(){
@@ -31,8 +26,7 @@ Attacker::Attacker() :
         victim(nullptr), targetData(nullptr), targetPointer(nullptr), targetDataLen(0), interval(1), maxIterations(100), measurements() {}
 
 Attacker::~Attacker() {
-    if (victim)
-        delete victim;
+    delete victim;
 }
 
 __attribute__((always_inline)) unsigned int Attacker::MeasureTime(volatile char* ch)
