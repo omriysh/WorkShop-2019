@@ -1,16 +1,9 @@
-//
-// Created by User on 18/5/2019.
-//
-
 #include "FRAttacker.h"
 #include <unistd.h>
 #include <time.h>
 #include <stdexcept>
 
-//#include <iostream>
-
 using namespace std;
-
 
 FRAttacker::FRAttacker() :
     Attacker() {}
@@ -24,7 +17,7 @@ FRAttacker::FRAttacker(string path, char* target, int len, int intervalTime) :
 FRAttacker::FRAttacker(string path, char* target, int len, int intervalTime, int iteration) :
     Attacker(path, target, len, intervalTime, iteration) {}
 
-void FRAttacker::Flush(void* toFlush){
+__attribute__((always_inline)) void FRAttacker::Flush(void* toFlush){
     __asm__ __volatile__ ("clflush (%0)" :: "r"(toFlush));
 }
 
@@ -82,6 +75,4 @@ void FRAttacker::Configure() {
         cyclesSum += MeasureTime(targetPointer);
     }
     SetInCacheTime(cyclesSum / numOfIterations);
-    //cout << "in time: " << inCacheTime << endl;
-    //cout << "no time: " << noCacheTime << endl;
 }
