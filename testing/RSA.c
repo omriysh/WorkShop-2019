@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 /* Refer to http://www.coders-hub.com/2013/04/c-code-to-encrypt-and-decrypt-message.html#.Vhs81MryNC1 */
 unsigned long long int n, t;
@@ -14,8 +15,20 @@ long int cd(long int);
 void encrypt();
 void decrypt();
 
-void RSAerr(char *error){
-  printf("%s\n", error);
+void __attribute__((optimize("O0"))) RSAerr(char *error){
+    asm("nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;nop;");
+    printf("%s\n", error);
+}
+
+unsigned long long fast_pow_mod_n(unsigned long long a, unsigned long long b){
+	a = a % n;
+	if (b == 1){
+		return a;
+	}
+	if(b % 2 == 0){
+		return (fast_pow_mod_n(a*a, b/2) % n);
+	}
+	return (((fast_pow_mod_n(a*a, (b-1)/2) % n) * a) % n);
 }
 
 void print_bits(unsigned int num){
@@ -37,7 +50,6 @@ int check_simplified_pkcs_padding(unsigned int *unpadded, unsigned int plaintext
   int good = 1;
   int mlen;
   if (plaintext >> 27 != 2){
-    printf("1");
     good = 0;
   }
   else {
@@ -46,7 +58,6 @@ int check_simplified_pkcs_padding(unsigned int *unpadded, unsigned int plaintext
     }
     mlen = 32 - 7 - PSlength;
     if (PSlength == 25 || (plaintext >> (27 - PSlength - 2)) % 4 != 0){
-      printf("2");
       good = 0;
     }
   }
@@ -59,7 +70,7 @@ int check_simplified_pkcs_padding(unsigned int *unpadded, unsigned int plaintext
 
   err:
   if (mlen == -1){
-    RSAerr("incorrect padding");
+    RSAerr("incorrect padding");	
   }
 
   return mlen;
@@ -80,7 +91,7 @@ long int padd_message(long int message){
 int rand_prime(){
   long int r;
   while(1){
-    r = (rand() % 16384) + 16384;//16384;32768
+    r = (rand() % 16384) + 32768;//16384;32768
     if (prime(r) == 1){
       return r;
     }
@@ -143,21 +154,13 @@ long int cd(long int x)
 void encrypt()
 {
   long int pt,ct,key=e,len;
-  unsigned long long int k;
   i=0;
   len=strlen(msg);
   while(i!=len)
   {
       pt=m[i];
-      k=1;
-      for(j=0;j<key;j++)
-      {
-          k=k*pt;
-          k=k%(unsigned long long)n;
-          
-      }
-      temp[i]=k;
-      ct=k;
+      ct=fast_pow_mod_n(pt, key);
+      temp[i]=ct;
       en[i]=ct;
       i++;
   }
@@ -167,18 +170,11 @@ void encrypt()
 void decrypt()
 {
   unsigned long long int pt,ct,key=d;
-  unsigned long long int k;
   i=0;
   while(en[i]!=-1)
   {
       ct=temp[i];
-      k=1;
-      for(j=0;j<key;j++)
-      {
-          k=k*ct;
-          k=k%(unsigned long long)n;
-      }
-      pt=k;
+      pt = fast_pow_mod_n(ct, key);
       m[i]=pt;
       i++;
   }
@@ -187,22 +183,36 @@ void decrypt()
 
 
 
-void main()
+int main(int argc, char **argv)
 {
-  unsigned int temp;
-
+  unsigned int temp, padd_flag;
+  if(argc != 3){
+  	printf("WRONG USAGE: ./rsa message padd_flag\n");
+  	return 1;
+  }
   key_gen();
   printf("n - %llu, p - %llu, q - %llu, t - %llu\n", n, p, q, t);
+   m[0] = atoi(argv[1]);
+  padd_flag = atoi(argv[2]);
   msg[0] = 'a';
-  m[0] = padd_message(100);
+
+  if(padd_flag != 0){
+  	m[0] = padd_message(m[0]);
+  }
+
   printf("%llu\n",m[0]);
   print_bits(m[0]);
+
   encrypt();
   decrypt();
+
   printf("\nTHE ENCRYPTED MESSAGE IS\n");
   for(i=0;en[i]!=-1;i++)
   printf("%llu",en[i]);
   printf("\nTHE DECRYPTED MESSAGE IS\n");
   printf("%llu\n",m[0]);
   print_bits(m[0]);
+  usleep(300);
+  check_simplified_pkcs_padding(&temp, m[0]);
+  return 0;
 }
