@@ -10,7 +10,6 @@
 using namespace std;
 
 class Victim {
-
 private:
     // fields
     string path;
@@ -18,12 +17,17 @@ private:
     int fileLen;
 
 public:
-    // functions
+    // basic ctor
     Victim(string Path);
+    // basic dtor
     ~Victim();
-    void LoadFile();
-    char* FindInFile(const char* data, int len);
 
+    // This function maps the file to memory, loading it's contents into
+    // fileData (initializing also fileLen) as read only and map shared.
+    void LoadFile();
+    // This function searches the file for the target data given by the pair
+    // data and len, and returns the address of it's first appearance.
+    char* FindInFile(const char* data, int len);
 };
 
 
