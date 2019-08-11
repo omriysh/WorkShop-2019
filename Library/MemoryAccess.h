@@ -1,10 +1,7 @@
-//
-// Created by nires on 26-May-19.
-//
-
 #ifndef WORKSHOP_MEMORYACCESS_H
 #define WORKSHOP_MEMORYACCESS_H
 
+// enum used for cache talk ;)
 enum Cache {
     noSpeculation,
     L1,
@@ -13,9 +10,10 @@ enum Cache {
     Memory
 };
 
+// the struct that holds a single memory access
 struct MemoryAccess {
-    std::time_t timeOfMeasure;
-    unsigned int clockCycles;
-    Cache speculatedCache;
+    std::time_t timeOfMeasure;  // time of measurement, 'cause why not
+    unsigned int clockCycles;   // clock cycles - the actual measurement
+    Cache speculatedCache;      // the speculation of this measurement
 };
 #endif //WORKSHOP_MEMORYACCESS_H

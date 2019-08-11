@@ -1,5 +1,8 @@
 //
-// Created by User on 18/5/2019.
+// This class is inherently a glorified file holder and searcher.
+// It can map a file to memory (just like an attacker wants), and search
+// it for data. Can be used both by the attacker and by the victim for
+// fun searching in files and wrapping them in an amusing name.
 //
 
 #ifndef WORKSHOP_VICTIM_H

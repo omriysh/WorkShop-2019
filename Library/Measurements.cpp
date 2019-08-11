@@ -1,10 +1,4 @@
-//
-// Created by nires on 26-May-19.
-//
-
 #include "Measurements.h"
-
-//#include <iostream>
 
 Measurements::Measurements(const Measurements &m2) {
     inCacheTime = m2.inCacheTime;
