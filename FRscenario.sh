@@ -5,7 +5,7 @@ ITERATIONS=50
 TARGET="\xc7\x45\xfc\x06\x00"
 function sep_line {
 	echo
-	echo "-------------------------"
+	echo "--------------------------"
 	echo
 }
 
