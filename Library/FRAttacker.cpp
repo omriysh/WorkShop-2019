@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <stdexcept>
+#include <iostream>
 
 using namespace std;
 
@@ -48,7 +49,7 @@ void FRAttacker::Attack() {
         Flush(targetPointer);
         usleep(interval);
         measured = MeasureTime(targetPointer);
-        //if (measured < 100) cout << measured << endl;
+        //cout << "time - " << measured << endl;
         measurements.AddMeasurement(time(NULL), measured);
     }
     measurements.UpdateSpeculations();

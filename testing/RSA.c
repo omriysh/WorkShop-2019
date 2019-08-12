@@ -187,12 +187,12 @@ int main(int argc, char **argv)
 {
   unsigned int temp, padd_flag;
   if(argc != 3){
-  	printf("WRONG USAGE: ./rsa message padd_flag\n");
+  	printf("WRONG USAGE: ./rsa message_range padd_flag\n");
   	return 1;
   }
   key_gen();
-  printf("n - %llu, p - %llu, q - %llu, t - %llu\n", n, p, q, t);
-   m[0] = atoi(argv[1]);
+  //printf("n - %llu, p - %llu, q - %llu, t - %llu\n", n, p, q, t);
+  m[0] = rand() % atoi(argv[1]);
   padd_flag = atoi(argv[2]);
   msg[0] = 'a';
 
@@ -200,18 +200,18 @@ int main(int argc, char **argv)
   	m[0] = padd_message(m[0]);
   }
 
-  printf("%llu\n",m[0]);
+  //printf("%llu\n",m[0]);
   print_bits(m[0]);
 
   encrypt();
   decrypt();
 
-  printf("\nTHE ENCRYPTED MESSAGE IS\n");
-  for(i=0;en[i]!=-1;i++)
-  printf("%llu",en[i]);
-  printf("\nTHE DECRYPTED MESSAGE IS\n");
-  printf("%llu\n",m[0]);
-  print_bits(m[0]);
+//  printf("\nTHE ENCRYPTED MESSAGE IS\n");
+//  for(i=0;en[i]!=-1;i++)
+//  printf("%llu",en[i]);
+//  printf("\nTHE DECRYPTED MESSAGE IS\n");
+//  printf("%llu\n",m[0]);
+//  print_bits(m[0]);
   usleep(300);
   check_simplified_pkcs_padding(&temp, m[0]);
   return 0;

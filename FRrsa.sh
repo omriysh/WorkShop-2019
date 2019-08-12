@@ -3,7 +3,7 @@ VICTIM="testing/rsa"
 ATTACKER="FRtester"
 ITERATIONS=2000
 INTERVAL=10
-PADFLAG=1
+PADFLAG=$1
 TARGET="\x90\x90\x48\x8b\x45\xf8\x48\x89\xc7\xe8\xa5\xfd\xff\xff\xc9\xc3"
 
 
@@ -16,6 +16,11 @@ function sep_line {
 function run_victim {
 	sleep 0.1
 	echo "Initiating Victim"
+	if [ $PADFLAG -eq 1 ]; then
+	    echo "Running victim on padded message"
+	else
+	    echo "Running victim on unpadded message"
+	fi
 	eval "$VICTIM 100 $PADFLAG"
 }
 
@@ -29,9 +34,9 @@ function run_attacker {
 	fi
 	echo "[$returnVal/$ITERATIONS] accesses to targeted code identified"
 	if [ $returnVal -gt 1 ]; then
-		echo "Padding was incorrect"
+		echo "Message was padded incorrectly"
 	else
-		echo "Padding was correct"
+		echo "Message was padded correctly"
 	fi
 	echo
 	echo
