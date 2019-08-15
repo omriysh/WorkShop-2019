@@ -24,7 +24,7 @@ To build your own attacker, simply write a son to the Attacker base class. The A
 The class you write (that inherits from Attacker) should implement the Configure() and the Attack() functions. It's up to you to decide what to do with them. Note that by default Configure isn't required to be called before Attack, so if you want to you should enforce that yourself. The rest is built for you and ready to go.
 
 ### Read the documentation!
-The .h filed are heavily documented with far more detail, and each of them starts with a paragraph explaining how to use that class. Read them before doing anything else :)
+The .h files are heavily documented with far more detail, and each of them starts with a paragraph explaining how to use that class. Read them before doing anything else :)
 
 ### Examples
 Examples of using FRAttacker and PPAttacker can be found in main1 and main2 which are in AttackerTest1 and AttackerTest2 respectively.
